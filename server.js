@@ -7,12 +7,12 @@ require ('dotenv').config();
 const app = express();
 app.use(bodyParser.json());
 
-app.post('/goldspot/hourly', function (req, res) {
+app.post('/spot/hourly', function (req, res) {
     adapter.metalsservice(req, res);
 });
 
 let listener = app.listen(process.env.PORT || 6221, function () {
-    console.log("Quandl adapter listening on", listener.address().address + listener.address().port);
+    console.log("Metals-API adapter listening on", listener.address().address + listener.address().port);
 });
 
 process.on('SIGINT', function () {

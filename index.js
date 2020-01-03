@@ -6,7 +6,7 @@ axios = require('axios');
 const createRequest = (input, callback) => {
 
     // Performing a GET request
-    axios.get('http://metals-api.com/api/latest?base=USD&symbols=XAU,XAG&access_key=' + process.env.API_KEY, {
+    axios.get('http://metals-api.com/api/latest?base=USD&symbols=' + input.data.symbol + '&access_key=' + process.env.API_KEY, {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -22,7 +22,13 @@ const createRequest = (input, callback) => {
         })
         .then(function(response){
             jsonData = {};
-            jsonData['goldspot'] = response.data.rates.XAU;
+            if(input.data.symbol === 'XAU'){
+                jsonData['goldspot'] = response.data.rates[input.data.symbol];
+            }
+
+            if(input.data.symbol === 'XAG'){
+                jsonData['silverspot'] = response.data.rates[input.data.symbol];
+            }
 
             callback(200, {
                 jobRunID: input.id,
